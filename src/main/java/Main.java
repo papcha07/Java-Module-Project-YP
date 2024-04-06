@@ -12,30 +12,34 @@ public class Main {
         int persCount = correctCountPerson();
         Calculator calculator = new Calculator(persCount);
 
-        while(true){
+        while (true) {
 
-            System.out.println("Введите название товара, если хотите завершить работу программы, то напишите 'Завершиить'");
+            System.out.println("Введите название товара, если хотите завершить работу программы, то напишите 'Завершить'");
 
             String itemName = scanner.nextLine();
 
+            if (!itemName.isBlank()) {
 
-            if(!itemName.equalsIgnoreCase("завершить")){
-                System.out.println("Введите стоимость товара");
-                float itemCost = correctCost();
-                calculator.addItem(new Item(itemName,itemCost));
 
-                System.out.println("Хотите добавить ещё один товар? (да/нет)");
-                String choose = scanner.nextLine();
+                if (!itemName.equalsIgnoreCase("завершить")) {
+                    System.out.println("Введите стоимость товара");
+                    float itemCost = correctCost();
+                    calculator.addItem(new Item(itemName, itemCost));
 
-                if(!choose.equalsIgnoreCase("да")){
+                    System.out.println("Хотите добавить ещё один товар? (да/нет)");
+                    String choose = scanner.nextLine();
+
+                    if (!choose.equalsIgnoreCase("да")) {
+                        calculator.printTotalInfo();
+                        break;
+                    }
+                } else {
                     calculator.printTotalInfo();
                     break;
                 }
-            }
 
-            else{
-                calculator.printTotalInfo();
-                break;
+            } else {
+                System.out.println("Название не может быть пустым!");
             }
 
 
@@ -43,47 +47,41 @@ public class Main {
     }
 
 
-    public static int correctCountPerson(){
+    public static int correctCountPerson() {
         Scanner scanner = new Scanner(System.in);
-        int count;
-        while(true){
+
+        while (true) {
             System.out.println("Введите количество человек");
             try {
-                count = Integer.parseInt(scanner.nextLine());
-                if(count < 1){
+                int count = Integer.parseInt(scanner.nextLine());
+                if (count < 1) {
                     System.out.println("Некорректное количество человек");
-                }
-                else if(count == 1){
+                } else if (count == 1) {
                     System.out.println("Не имеет смысла производить расчёты для одного человека");
+                } else {
+                    return count;
                 }
-                else{
-                    break;
-                }
-            }
-            catch (Exception e){
+            } catch (NumberFormatException e) {
                 System.out.println("Введите целое число");
             }
 
         }
-        return count;
     }
-
-
 
 
     public static float correctCost() {
         Scanner scanner = new Scanner(System.in);
         float itemCost;
 
-        while(true) {
+        while (true) {
             try {
                 itemCost = Float.parseFloat(scanner.nextLine());
-                if(itemCost >= 0) {
+                if (itemCost > 0) {
                     break;
                 } else {
-                    System.out.println("Стоймость не может быть отрицательной.");
+                    System.out.println("Стоймость не может быть отрицательной или равной нулю.");
                 }
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("Введите корректное число для стоимости товара:");
             }
         }

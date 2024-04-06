@@ -1,45 +1,40 @@
-import java.lang.reflect.Array;
-import java.security.PublicKey;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Calculator {
 
 
     ArrayList<Item> itemList = new ArrayList<>();
-    public int personCount;
-    public float totalPrice;
-    public Calculator(int count){
-        this.personCount =  count;
+    private int personCount;
+
+    public Calculator(int count) {
+
+        this.personCount = count;
     }
 
 
-    public void addItem(Item item){
+    public void addItem(Item item) {
         System.out.println("Товар " + item.name + " успешно добавлен");
         itemList.add(item);
-        totalPrice += item.price;
+
     }
 
-    public void printTotalInfo(){
+    public void printTotalInfo() {
 
+        float totalPrice = 0f;
         System.out.println("Список продуктов: ");
         int count = 1;
-        for(Item item: itemList){
-            System.out.printf("%d)%s\n",count,item.name);
-            count++;
+        for (Item item : itemList) {
+            totalPrice += item.price;
+            System.out.printf("%d)%s\n", count++, item.name);
         }
 
-        System.out.printf("Общая сумма: %.2f %s\n",totalPrice,new Formatter().getEnding(totalPrice));
-        System.out.printf("Каждый должен заплатить: %.2f %s",(totalPrice/personCount),new Formatter().getEnding(totalPrice/personCount));
+        float average = totalPrice / personCount;
+
+        System.out.printf("Общая сумма: %.2f %s\n", totalPrice, Formatter.getEnding(totalPrice));
+        System.out.printf("Каждый должен заплатить: %.2f %s", average, Formatter.getEnding(average));
 
 
     }
-
-
-
-
-
 
 
 }
